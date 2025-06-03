@@ -1,4 +1,4 @@
-#include "HyperSharedPointer.h"
+#include "theta/hyper-shared-ptr/hyper-shared-ptr.h"
 
 #include <glog/logging.h>
 #include <rseq/rseq.h>
@@ -7,12 +7,12 @@
 #include <cstddef>
 #include <cstring>
 
-namespace hsp {
+namespace theta::hsp {
 
 class RseqRegistrar {
  public:
   RseqRegistrar() {
-    CHECK(rseq_available(RSEQ_AVAILABLE_QUERY_KERNEL));
+    CHECK(rseq_available());
     CHECK(!rseq_register_current_thread());
   }
 
@@ -240,4 +240,4 @@ uint64_t Arena::unmarkCpu(int cpu) {
   return usedCpus;
 }
 
-}  // namespace hsp
+}  // namespace theta::hsp

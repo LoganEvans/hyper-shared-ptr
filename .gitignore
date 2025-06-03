@@ -31,7 +31,8 @@
 *.out
 *.app
 
-bazel-*
-callgrind.out.*
-perf.data*
-*.swp
+# nix
+build/
+result*
+source/
+output/

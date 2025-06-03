@@ -2,8 +2,10 @@
 #include <random>
 #include <thread>
 
-#include "HyperSharedPointer.h"
 #include "benchmark/benchmark.h"
+#include "theta/hyper-shared-ptr/hyper-shared-ptr.h"
+
+using theta::hsp::HyperSharedPointer;
 
 static void BM_CreateStdSharedPtr(benchmark::State &state) {
   for (auto _ : state) {
@@ -16,7 +18,7 @@ BENCHMARK(BM_CreateStdSharedPtr)->Threads(12);
 
 static void BM_CreateHyperSharedPointer(benchmark::State &state) {
   for (auto _ : state) {
-    hsp::HyperSharedPointer p{new int};
+    HyperSharedPointer p{new int};
     benchmark::DoNotOptimize(p);
   }
 }
@@ -39,8 +41,8 @@ BENCHMARK(BM_SharingStdSharedPtr)->Threads(1);
 BENCHMARK(BM_SharingStdSharedPtr)->Threads(12);
 
 static void BM_SharingHyperSharedPointer(benchmark::State &state) {
-  static hsp::HyperSharedPointer staticPtr{new int};
-  std::array<hsp::HyperSharedPointer<int>, 100> buf;
+  static HyperSharedPointer staticPtr{new int};
+  std::array<HyperSharedPointer<int>, 100> buf;
   std::default_random_engine gen;
   std::uniform_int_distribution<> unif(0, buf.size() - 1);
 
