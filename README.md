@@ -1,5 +1,7 @@
 # HyperSharedPointer
 
+## Overview
+
 A `HyperSharedPointer` behaves like `std::shared_ptr`, but when the pointer is
 shared many times across lots of threads, it is faster by as much as 9x.
 
@@ -10,6 +12,27 @@ support for a `std::weak_ptr` corollary is not yet complete.
 The basic concept behind `HyperSharedPointer` is to shard the control-block
 counter for a shared pointer across each CPU. When the pointer is heavily shared,
 nearly all of the atomic counter operations will be uncontested.
+
+## Getting started
+
+To enable perf events, use:
+
+    $ sudo sysctl -w kernel.perf_event_paranoid=1
+
+To generate a flamegraph for the benchmarks, use:
+
+    $ nix develop .#benchmark
+    $ runPhase configurePhase && runPhase buildPhase
+    $ perf record -F 99 -g -- benchmark/hyper-shared-ptr-benchmark
+    $ perf script | stackcollapse-perf.pl | flamegraph.pl > flamegraph.svg
+
+Open `flamegraph.svg` in a webbrowser.
+
+Run the tests with:
+
+    $ test/hyper-shared-ptr-tests
+
+## Benchmarks
 
 ```
 $ bazel run -c opt :hyper_shared_pointer_benchmark -- --benchmark_min_time=1

@@ -25,11 +25,11 @@ target_link_libraries(hyper-shared-ptr PUBLIC fmt::fmt glog::glog
 install(
   TARGETS hyper-shared-ptr
   EXPORT ${PROJECT_NAME}
-  DESTINATION $ENV{out})
+  DESTINATION $ENV{dev})
 
 install(
   EXPORT ${PROJECT_NAME}
-  DESTINATION $ENV{out}/lib/cmake
+  DESTINATION $ENV{dev}/lib/cmake
   FILE ${PROJECT_NAME}-config.cmake
   NAMESPACE theta::)
 

@@ -48,12 +48,4 @@ clangStdenv.mkDerivation {
   env = {
     BUILD_BENCHMARKING = false;
   };
-
-  shellHook = ''
-    echo "To generate a flamegraph, run:"
-    echo "    sudo sysctl -w kernel.perf_event_paranoid=1"
-    echo "    runPhase configurePhase && runPhase buildPhase"
-    echo "    perf record -F 99 -g -- benchmark/hyper-shared-ptr-benchmark"
-    echo "    perf script | stackcollapse-perf.pl | flamegraph.pl > flamegraph.svg"
-  '';
 }
