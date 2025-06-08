@@ -14,13 +14,12 @@
 }:
 let
 in
-clangStdenv.mkDerivation {
+clangStdenv.mkDerivation rec {
   inherit src;
   name = "hyper-shared-ptr";
 
   outputs = [
     "out"
-    "dev"
   ];
 
   buildInputs = [
@@ -44,8 +43,7 @@ clangStdenv.mkDerivation {
   separateDebugInfo = true;
 
   doCheck = false;
-
   env = {
-    BUILD_BENCHMARKING = false;
+    BUILD_BENCHMARK = false;
   };
 }

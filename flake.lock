@@ -69,11 +69,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748927198,
-        "narHash": "sha256-T1b6gSjmIFcAtEWk8o4MtrzqwvocnTVQ0+b7LVbbrI4=",
+        "lastModified": 1749357070,
+        "narHash": "sha256-kVwUkM2bpf/8ejwwqicvYLRJaJV9Q9xTHamsohUyANA=",
         "owner": "LoganEvans",
         "repo": "debug-utils",
-        "rev": "8864215ff6b0189564c6e7ae05500a5b38214fbb",
+        "rev": "b19a25067066f746cec5dbf51579bb58224100b7",
         "type": "github"
       },
       "original": {

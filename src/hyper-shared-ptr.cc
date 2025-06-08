@@ -20,25 +20,14 @@ class RseqRegistrar {
 };
 thread_local RseqRegistrar rseqRegistrar{};
 
-int getCpu() {
-  thread_local int remainingUses = 0;
-  thread_local unsigned int cpu = -1;
-
-  if (remainingUses) {
-    remainingUses--;
-    return cpu;
-  }
-
-  remainingUses = 31;
-  cpu = rseq_current_cpu();
-  return cpu;
-}
+int getCpu() { return rseq_current_cpu(); }
 
 bool Slab::increment() {
   // This can't be memory_order_relaxed because the initialization (when the
   // counter is set to a non-negative value) needs to be communicated with
   // other CPUs.
   int count = counter_.fetch_add(1, std::memory_order_acq_rel);
+
   // The value count == 0 is a special case. A second thread could have
   // decremented this counter to 0, after which it will attempt to set the
   // counter to std::numeric_limits<int>::min(). However, since the code here

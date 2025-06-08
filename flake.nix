@@ -34,30 +34,30 @@
 
         pkg-theta-debug-utils = theta-debug-utils.packages.${system}.default;
 
-        hyper-shared-ptr-drv = pkgs.callPackage ./package.nix {
-          theta-debug-utils = pkg-theta-debug-utils;
-          src = self;
-        };
-
         treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+
+        drv = pkgs.callPackage ./package.nix {
+          src = self;
+          theta-debug-utils = pkg-theta-debug-utils;
+        };
       in
       {
         packages = rec {
-          hyper-shared-ptr = hyper-shared-ptr-drv;
-          default = hyper-shared-ptr-drv;
+          hyper-shared-ptr = drv;
+
+          benchmark = drv.overrideAttrs (old-attrs: {
+            doCheck = true;
+            env.BUILD_BENCHMARK = true;
+          });
+
+          default = hyper-shared-ptr;
         };
 
         devShells = {
-          benchmark = hyper-shared-ptr-drv.overrideAttrs (old-attrs: {
-            cmakeBuildType = "RelWithDebInfo";
-            doCheck = true;
-            env.BUILD_BENCHMARKING = true;
-          });
-
-          default = hyper-shared-ptr-drv.overrideAttrs (old-attrs: {
+          default = drv.overrideAttrs (old-attrs: {
             cmakeBuildType = "Debug";
             doCheck = true;
-            env.BUILD_BENCHMARKING = true;
+            env.BUILD_BENCHMARK = true;
           });
         };
 
